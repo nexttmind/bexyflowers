@@ -1,0 +1,5 @@
+import {z} from 'zod';
+import {atelierSchema} from './atelier-schema';
+const bouquet=z.object({atelier:atelierSchema.optional(),roses:z.number().int().min(0).max(75),tulips:z.number().int().min(0).max(75),peonies:z.number().int().min(0).max(75),roseColor:z.string().regex(/^#[0-9a-f]{6}$/i),tulipColor:z.string().regex(/^#[0-9a-f]{6}$/i),leaves:z.boolean(),glitter:z.boolean(),stemLength:z.number().min(35).max(90),wrap:z.string().regex(/^#[0-9a-f]{6}$/i),note:z.string().max(1000)}).refine(b=>b.atelier?b.atelier.flowers.reduce((s,f)=>s+f.quantity,0)>0:b.roses+b.tulips+b.peonies>0,'Choose at least one flower');
+const item=z.object({key:z.string().min(1).max(100),productId:z.string().min(1).max(100),quantity:z.number().int().min(1).max(20),size:z.enum(['Petite','Signature','Grand','Custom','One size']),note:z.string().max(1000),config:bouquet.optional()}).refine(x=>x.productId!=='custom'||!!x.config,'Custom bouquets require a design');
+export const storeState=z.object({cart:z.array(item).max(50),favorites:z.array(z.string().min(1).max(100)).max(20),design:bouquet.nullable()});

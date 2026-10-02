@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import test,{after} from 'node:test';
+import {DatabaseSync} from 'node:sqlite';
+import {readFileSync,readdirSync} from 'node:fs';
+import {createServer} from 'vite';
+const sql=new DatabaseSync(':memory:');
+for(const f of readdirSync('drizzle').filter(f=>f.endsWith('.sql')).sort())sql.exec(readFileSync('drizzle/'+f,'utf8'));
+globalThis.__commerceTestEnv={DB:{prepare(query){const stmt=sql.prepare(query);let args=[];const api={bind(...v){args=v;return api},async first(){return stmt.get(...args)??null},async all(){return {results:stmt.all(...args)}},async run(){const r=stmt.run(...args);return {meta:{changes:Number(r.changes)}}}};return api}}};
+const vite=await createServer({configFile:false,appType:'custom',resolve:{alias:{'@':process.cwd()}},plugins:[{name:'test-d1',resolveId(id){if(id==='cloudflare:workers')return '\0test-d1'},load(id){if(id==='\0test-d1')return 'export const env=globalThis.__commerceTestEnv;'}}],server:{middlewareMode:true}});
+after(async()=>{await vite.close();sql.close();delete globalThis.__commerceTestEnv});
+const api=await vite.ssrLoadModule('/app/api/requests/route.ts');
+const admin=await vite.ssrLoadModule('/app/api/admin/route.ts');
+const session='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';const auth='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+sql.prepare('INSERT INTO demo_auth(token,user_id,role,expires) VALUES(?,?,?,?)').run(auth,'admin','admin',Date.now()+1000000);
+sql.prepare('INSERT INTO shop_sessions(id,data,updated_at) VALUES(?,?,?)').run(session,JSON.stringify({cart:[{key:'glitter',productId:'glitter',quantity:1,size:'Signature',note:''}],favorites:[],design:null}),Date.now());
+const cookie=`bexy_session=${session}`;
+function req(path,body,c=cookie){return new Request('https://test.local'+path,{method:body?'POST':'GET',headers:{origin:'https://test.local',cookie:c,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})})}
+const id='cccccccc-cccc-4ccc-8ccc-cccccccccccc';
+const details={name:'Customer',email:'customer@example.com',phone:'+96176123456',recipient:'Recipient',city:'Beirut',address:'Example address',date:'2099-01-01',message:'Hello',occasion:'Birthday'};
+test('order submission is persistent, retry-safe, private and manageable only by admin',async()=>{
+let r=await api.POST(req('/api/requests',{id,kind:'order',details}));assert.equal(r.status,201,await r.clone().text());
+r=await api.POST(req('/api/requests',{id,kind:'order',details}));assert.equal(r.status,201);assert.equal(sql.prepare('SELECT COUNT(*) n FROM commerce_requests').get().n,1);
+r=await api.GET(req('/api/requests?admin=1'));assert.equal(r.status,403);
+r=await api.GET(req('/api/requests',null,'bexy_session=dddddddd-dddd-4ddd-8ddd-dddddddddddd'));assert.equal((await r.json()).requests.length,0);
+const update={action:'update',id,version:0,status:'Confirmed',shipping:500,paid:0,refund:0,payment:'Not recorded',notes:'Private studio note'};
+r=await api.POST(req('/api/requests',update));assert.equal(r.status,403);
+r=await api.POST(req('/api/requests',update,cookie+`; bexy_demo_auth=${auth}`));assert.equal(r.status,200,await r.clone().text());
+r=await api.POST(req('/api/requests',update,cookie+`; bexy_demo_auth=${auth}`));assert.equal(r.status,409);
+r=await api.GET(req('/api/requests'));const customer=(await r.json()).requests[0];assert.equal(customer.data.notes,'');assert.deepEqual(customer.data.history,[]);assert.equal(customer.data.lines[0].cost,0);assert.equal(customer.data.status,'Confirmed');
+r=await admin.GET(req('/api/admin',null,cookie+`; bexy_demo_auth=${auth}`));const data=await r.json();assert.equal(data.orders.length,1);assert.equal(data.orders[0].paid,0);assert.equal(data.expenses.length,0);
+});
+test('wedding enquiry reaches the same protected inbox without exposing contacts to other sessions',async()=>{const r=await api.POST(req('/api/requests',{id:'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee',kind:'event',details:{name:'Wedding customer',email:'wedding@example.com',phone:'+96176123456',type:'Wedding',date:'2099-01-01',venue:'Beirut',message:'White flowers'}}));assert.equal(r.status,201,await r.clone().text());assert.equal(sql.prepare("SELECT COUNT(*) n FROM commerce_requests WHERE kind='event'").get().n,1)});
+test('foreign origin writes are refused',async()=>{const r=await api.POST(new Request('https://test.local/api/requests',{method:'POST',headers:{origin:'https://other.local'},body:'{}'}));assert.equal(r.status,403)});

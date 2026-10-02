@@ -1,0 +1,6 @@
+import {env} from 'cloudflare:workers';
+export function sameOrigin(req:Request){return req.headers.get('origin')===new URL(req.url).origin}
+export async function identity(req:Request){const token=req.headers.get('cookie')?.match(/(?:^|;\s*)bexy_demo_auth=([a-f0-9-]{36})(?:;|$)/)?.[1];if(!token)return null;const row=await env.DB.prepare('SELECT user_id,role FROM demo_auth WHERE token=? AND expires>?').bind(token,Date.now()).first<{user_id:string;role:string}>();if(!row)return null;if(row.role==='admin')return{id:'admin',name:'Rebecca',email:'admin',role:'admin'};const user=await env.DB.prepare('SELECT id,name,email,phone FROM demo_users WHERE id=?').bind(row.user_id).first<{id:string;name:string;email:string;phone:string}>();return user?{...user,role:'customer'}:null}
+export async function readData<T>(id:string,fallback:T):Promise<T>{const row=await env.DB.prepare('SELECT data FROM site_content WHERE id=?').bind(id).first<{data:string}>();return row?JSON.parse(row.data):fallback}
+export async function writeData(id:string,data:unknown){await env.DB.prepare('INSERT INTO site_content (id,data,updated_at) VALUES (?,?,?) ON CONFLICT(id) DO UPDATE SET data=excluded.data,updated_at=excluded.updated_at').bind(id,JSON.stringify(data),Date.now()).run()}
+export const json=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});

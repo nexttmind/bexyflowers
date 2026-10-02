@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import test,{after} from 'node:test';
+import {createServer} from 'vite';
+const vite=await createServer({configFile:false,appType:'custom',server:{middlewareMode:true}});
+after(()=>vite.close());
+const {snapshot,applyUpdate,deliverySchema,enquirySchema,adminRecords}=await vite.ssrLoadModule('/lib/commerce.ts');
+const {totals}=await vite.ssrLoadModule('/lib/demo-data.ts');
+const cms={entries:{'product-rose-price-grand':{text:'80'}},products:[{id:'rose',name:'Rose box',price:5000,cost:2000,discount:10,stock:3,active:true,kind:'flower'}]};
+const item={key:'a',productId:'rose',size:'Grand',quantity:2,note:''};
+test('prices come from catalog snapshots and include selected size and discount',()=>{const lines=snapshot([item],cms);assert.equal(lines[0].unitPrice,7200);cms.products[0].price=6000;assert.equal(lines[0].unitPrice,7200)});
+test('stock aggregates across bag lines; hidden products and forged configurations are rejected',()=>{assert.throws(()=>snapshot([item,{...item,key:'b'}],cms),/availability/);assert.throws(()=>snapshot([{...item,config:{}}],cms),/valid/);assert.throws(()=>snapshot([item],{...cms,products:[{...cms.products[0],active:false}]}),/available/)});
+const order={details:{name:'Test',email:'test@example.com',phone:'+96176123456',city:'Beirut'},lines:[{productId:'rose',name:'Rose',quantity:1,unitPrice:10000,cost:4000,stems:0}],subtotal:10000,shipping:1000,paid:0,refund:0,payment:'Not recorded',status:'Pending',notes:'',history:[]};
+const update={id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',version:0,status:'Confirmed',shipping:1000,paid:5500,refund:0,payment:'Cash on delivery',notes:''};
+test('status changes cannot invent payments, exceed totals or erase pending refunds',()=>{assert.throws(()=>applyUpdate(order,{...update,paid:12000},'order'),/amounts/);assert.throws(()=>applyUpdate(order,{...update,refund:6000},'order'),/amounts/);assert.throws(()=>applyUpdate(order,{...update,status:'Cancelled'},'order'),/refund/);assert.throws(()=>applyUpdate(order,{...update,payment:'Not recorded'},'order'),/method/);assert.equal(applyUpdate(order,update,'order').paid,5500)});
+test('partial payments recognize proportional revenue; refunds reduce figures',()=>{const data=applyUpdate(order,update,'order');const report=adminRecords([{id:update.id,kind:'order',createdAt:Date.now(),version:1,data}],[]);assert.equal(report.customers[0].consent,false);const t=totals(report.orders);assert.equal(t.revenue,5000);assert.equal(t.shipping,500);assert.equal(t.cost,2000);assert.equal(t.outstanding,5500);report.orders[0].refund=5500;assert.equal(totals(report.orders).revenue,0)});
+test('delivery and event forms reject invalid or past dates and missing contacts',()=>{assert.equal(deliverySchema.safeParse({...order.details,recipient:'Test',address:'Test address',date:'2020-01-01',message:''}).success,false);assert.equal(enquirySchema.safeParse({name:'Test',email:'test@example.com',phone:'',type:'Wedding',date:'2099-02-30',venue:'Beirut',message:''}).success,false)});

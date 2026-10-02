@@ -1,0 +1,81 @@
+/* One shared editorial system across Bexy's storefront. */
+:root{--bexy-space:clamp(24px,5vw,88px);--bexy-ink:#171717;--bexy-paper:#fff;--bexy-rule:#e6e6e6}
+body{background:var(--bexy-paper);color:var(--bexy-ink)}
+.primary,.outline{border-radius:0;min-height:52px;font-size:12px;letter-spacing:.1em;transition:background-color .2s,color .2s,border-color .2s}
+.header{padding-inline:var(--bexy-space);gap:30px}.header .wordmark{font-size:22px;letter-spacing:.08em}.header .nav-actions{gap:19px}
+.reference-navigation [data-slot=navigation-menu-list]{gap:18px}
+.reference-navigation [data-slot=navigation-menu-trigger],.reference-navigation [data-slot=navigation-menu-link]{font-size:13px;letter-spacing:.025em;padding-inline:3px}
+.bexy-page-hero{margin-top:calc(-1 * var(--header-height));padding-top:var(--header-height);background:#fff;color:#171717;position:relative;border-bottom:1px solid var(--bexy-rule)}
+.bexy-hero-layout{display:grid;grid-template-columns:1fr 1fr;min-height:620px}
+.bexy-hero-copy{padding:65px var(--bexy-space);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0}
+.bexy-hero-eyebrow{font-size:12px;letter-spacing:.17em;line-height:1.6;color:#9b772c;margin-bottom:28px}
+.bexy-hero-copy h1{font-size:clamp(40px,4.6vw,74px);line-height:1.12;letter-spacing:-.035em;font-weight:400;margin:0;max-width:100%;overflow-wrap:break-word;text-wrap:balance}
+.bexy-hero-copy h1 em{font-style:normal}.bexy-hero-year{display:block;font-size:.55em;color:#777;margin-top:14px;letter-spacing:.06em}
+.bexy-hero-description{font-size:16px;line-height:1.85;color:#666;max-width:380px;margin:28px 0 0}
+.bexy-hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:36px}
+.bexy-hero-actions .primary{min-width:180px;justify-content:space-between;padding:15px 22px}
+.bexy-quiet-link{display:inline-flex;align-items:center;gap:12px;border-bottom:1px solid #bababa;padding:11px 0;font-size:13px}
+.bexy-quiet-link:hover{color:#9b772c;border-color:#9b772c}
+.bexy-hero-art{margin:0;position:relative;min-width:0;overflow:hidden;background:#f5f5f5;display:flex;flex-direction:column}
+.bexy-hero-art>img{width:100%;height:570px;flex:1;min-height:0;object-fit:cover;object-position:center;display:block}
+.bexy-hero-art>figcaption{font-size:12px;letter-spacing:.1em;line-height:1.5;padding:18px 24px;background:#fff;border-top:1px solid var(--bexy-rule);min-height:55px}
+.bexy-page-hero-contain .bexy-hero-art{background:#fafafa}.bexy-page-hero-contain .bexy-hero-art>img{object-fit:contain;padding:15%;mix-blend-mode:multiply}
+.bexy-hero-art>img[data-edit-key=reference-hero-image]{object-position:66% center}
+.bexy-hero-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:19px var(--bexy-space);border-top:1px solid var(--bexy-rule);font-size:11px;letter-spacing:.1em;color:#777}
+.bexy-hero-foot a{display:flex;align-items:center;gap:12px;color:#171717;font-size:13px;letter-spacing:.025em}
+.bexy-section-anchor,#catalogue-products,#bexy-story,#event-inquiry{scroll-margin-top:calc(var(--header-height) + 20px)}
+/* A compact version uses the same type and rhythm at the active design workspace. */
+.atelier-page{padding:0 var(--bexy-space) 60px;margin-top:0}
+.atelier-page .bexy-page-hero{margin-inline:calc(-1 * var(--bexy-space));margin-top:calc(-1 * var(--header-height));margin-bottom:35px}
+.bexy-page-hero-compact .bexy-hero-layout{display:block;min-height:0}
+.bexy-page-hero-compact .bexy-hero-copy{padding:42px var(--bexy-space) 35px;display:grid;grid-template-columns:1.4fr 1fr;column-gap:7%}
+.bexy-page-hero-compact .bexy-hero-eyebrow{grid-column:1/-1;margin-bottom:15px}
+.bexy-page-hero-compact h1{font-size:clamp(32px,3.7vw,54px);line-height:1.12}
+.bexy-page-hero-compact .bexy-hero-description{margin:0;align-self:end;max-width:360px}
+.atelier-stage,.atelier-choice button.selected,.atelier-accessories>button.selected{background:#fafafa}
+.atelier-choice button,.atelier-accessories>button,.atelier-field input,.atelier-field textarea{transition:border-color .2s,background-color .2s}
+.atelier-choice button:hover,.atelier-accessories>button:hover{border-color:#9b772c}
+/* Carry the hero's alignment, readable type and restrained rules through every page. */
+.reference-products{padding-top:70px}.reference-section-heading{padding-inline:var(--bexy-space)}
+.reference-section-heading h2,.reference-look>h2,.reference-color-section>h2,.reference-occasions>h2{font-size:clamp(24px,2.6vw,38px);letter-spacing:-.015em;text-transform:none;text-align:left}
+.reference-section-heading>a{font-size:13px;right:var(--bexy-space);bottom:4px}
+.reference-look,.reference-occasions{padding-inline:var(--bexy-space)}
+.reference-look>h2,.reference-occasions>h2{margin-bottom:34px}
+.reference-look-grid{gap:7%;grid-template-columns:1.1fr 1fr}.reference-look-grid>img{height:610px}
+.reference-look-grid>div{padding:20px 6%}.reference-look .product-image{max-height:420px}
+.reference-color-section>h2{padding-left:var(--bexy-space);padding-right:var(--bexy-space);padding-bottom:34px}
+.reference-occasion-grid{padding:0;gap:26px 20px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.reference-occasion-grid>a>span{font-size:14px;letter-spacing:.015em;padding:15px 0}
+.reference-occasion-grid img{aspect-ratio:1;transition:transform .35s}
+.reference-campaign{height:auto;min-height:540px;display:grid;grid-template-columns:1fr 1fr;color:#171717;background:#fafafa}
+.reference-campaign>img{height:560px;object-fit:cover;filter:none}
+.reference-campaign>div{position:static;padding:55px var(--bexy-space);display:flex;flex-direction:column;align-items:start;justify-content:center;min-width:0}
+.reference-campaign:after{display:none}.reference-campaign h2{font-size:clamp(30px,3.6vw,55px);line-height:1.2;letter-spacing:-.02em;margin-bottom:30px;max-width:400px}
+.reference-campaign .primary.light{background:#171717;border-color:#171717;color:#fff}.reference-campaign .primary.light:hover{background:#9b772c;border-color:#9b772c}
+.product-info{padding:19px 20px 25px}.product-info button{font-size:14px;letter-spacing:.01em;line-height:1.5}.product-info>.product-price{font-size:13px;letter-spacing:0}
+.product-tag{font-size:11px;letter-spacing:.04em}.quick-add{font-size:13px}
+.reference-story{padding:60px var(--bexy-space) 70px;border-top:1px solid #eee;margin-top:25px}.reference-story h2{font-size:clamp(30px,3.5vw,50px);letter-spacing:-.025em}.reference-story>p:not(.eyebrow){font-size:16px}
+.catalogue-toolbar{padding-inline:var(--bexy-space)}.catalogue-bottom{padding:60px var(--bexy-space)}.catalogue-bottom h2{font-size:clamp(28px,3vw,42px);letter-spacing:-.02em}.catalogue-bottom p{font-size:16px}
+.bexy-story-intro{padding:70px var(--bexy-space);display:grid;grid-template-columns:1fr 1.4fr;gap:12%;border-bottom:1px solid #eee}.bexy-story-intro>.eyebrow{color:#9b772c;padding-top:9px}.bexy-story-intro>p:last-child{font-size:clamp(23px,2.7vw,37px);line-height:1.5;letter-spacing:-.02em}
+.about-values,.about-contact{padding:70px var(--bexy-space)}.about-values h2,.about-contact h2{font-size:clamp(28px,3vw,42px);letter-spacing:-.02em;line-height:1.3}.values-grid article{border-radius:0;background:white;border-top:1px solid #ddd;padding-top:25px}.values-grid p,.about-contact>p:not(.eyebrow){font-size:16px;line-height:1.8}.values-grid h3{font-size:19px;letter-spacing:0}
+.wedding-detail-sections,.wedding-full-gallery{padding-inline:var(--bexy-space)}.wedding-detail-row h2,.wedding-gallery-heading h2,.wedding-package h2,.event-inquiry h2{font-size:clamp(28px,3vw,43px);letter-spacing:-.025em;line-height:1.25}.wedding-package{margin-inline:var(--bexy-space);background:white;border:1px solid #ddd;padding:45px}.wedding-package-inclusions article{border-color:#e6e6e6}.event-inquiry{padding-inline:var(--bexy-space)}
+.bexy-discover{padding:65px var(--bexy-space) 75px;background:#fafafa;display:grid;grid-template-columns:1fr 1.2fr;gap:10%;border-top:1px solid #e7e7e7}
+.bexy-discover .eyebrow{font-size:12px;color:#9b772c;margin-bottom:20px}.bexy-discover h2{font-size:clamp(28px,3.3vw,45px);line-height:1.2;letter-spacing:-.025em;max-width:400px}
+.bexy-discover-links>a{display:flex;align-items:center;gap:20px;padding:25px 0;border-bottom:1px solid #ddd;transition:color .2s}
+.bexy-discover-links>a:first-child{padding-top:0}.bexy-discover-links>a>span{font-size:12px;color:#9b772c}.bexy-discover-links>a>div{flex:1}.bexy-discover-links h3{font-size:20px;letter-spacing:-.01em}.bexy-discover-links p{font-size:14px;line-height:1.7;color:#777;margin-top:5px}.bexy-discover-links>a:hover{color:#9b772c}
+footer{padding-inline:var(--bexy-space)}.footer-main>div>a:not(.wordmark),.footer-main>div>span,.footer-main p{font-size:14px}.footer-main h3{font-size:12px}
+@media(min-width:761px){.bexy-page-hero:not(.bexy-page-hero-compact) .bexy-hero-layout{height:clamp(580px,76svh,780px)}}
+@media(max-width:1150px){.header .reference-navigation{display:none!important}.header .mobile-menu{display:flex}.bexy-hero-copy{padding-block:45px}.bexy-hero-copy h1{font-size:clamp(37px,5.4vw,60px)}.bexy-hero-actions{gap:16px}.bexy-hero-foot>span:last-child{display:none}.bexy-page-hero-compact .bexy-hero-copy{grid-template-columns:1fr}.bexy-page-hero-compact .bexy-hero-description{margin-top:15px;max-width:600px}.footer-main{gap:28px}.bexy-hero-description{font-size:16px}}
+@media(max-width:760px){
+:root{--bexy-space:22px}.header{gap:16px}.header .wordmark{font-size:20px}.header .nav-actions{gap:14px}
+.bexy-hero-layout{grid-template-columns:1fr;min-height:0}.bexy-hero-copy{padding:38px var(--bexy-space) 36px;min-height:0}.bexy-hero-eyebrow{font-size:12px;margin-bottom:19px;letter-spacing:.13em}.bexy-hero-copy h1{font-size:clamp(36px,10vw,48px);line-height:1.12;letter-spacing:-.035em;max-width:580px}.bexy-hero-description{font-size:16px;line-height:1.75;margin-top:20px;max-width:500px}.bexy-hero-actions{margin-top:25px;gap:18px}.bexy-hero-actions .primary{min-width:0;font-size:12px;padding:14px 18px;gap:18px}.bexy-quiet-link{font-size:13px}
+.bexy-hero-art>img{height:390px;flex:none;object-position:center;aspect-ratio:auto}.bexy-hero-art>figcaption{padding:14px 22px;font-size:11px;min-height:45px}.bexy-page-hero-contain .bexy-hero-art>img{padding:15%;height:390px}
+.bexy-hero-foot{padding:17px 22px;font-size:10px;gap:14px}.bexy-hero-foot a{font-size:12px;gap:8px}
+.bexy-page-hero-compact .bexy-hero-copy{padding:30px 22px 25px}.bexy-page-hero-compact h1{font-size:34px}.bexy-page-hero-compact .bexy-hero-description{font-size:14px;line-height:1.65}.atelier-page .bexy-page-hero{margin-bottom:24px}
+.reference-products{padding-top:45px}.reference-section-heading h2,.reference-look>h2,.reference-color-section>h2,.reference-occasions>h2{font-size:27px;line-height:1.3;letter-spacing:-.02em}.reference-section-heading>a{font-size:12px;bottom:0}.reference-product-rail{margin-top:20px}.reference-look{padding-top:30px;padding-bottom:45px}.reference-look-grid{grid-template-columns:1fr;gap:25px}.reference-look-grid>img{height:auto;aspect-ratio:1}.reference-look-grid>div{padding:0 8%}.reference-look .product-image{max-height:340px}.reference-color-section>h2{padding-top:15px;padding-bottom:28px}.reference-occasions{padding-top:45px;padding-bottom:40px}.reference-occasion-grid{grid-template-columns:1fr 1fr;gap:18px 14px}.reference-occasion-grid>a>span{font-size:13px;padding:12px 0;letter-spacing:0}.reference-campaign{grid-template-columns:1fr;min-height:0}.reference-campaign>img{height:380px}.reference-campaign>div{padding:35px 22px 40px}.reference-campaign h2{font-size:34px}.reference-story{padding-block:40px 50px}.reference-story h2{font-size:34px}.product-info{padding:15px 13px 20px}.product-info button{font-size:13px}.product-info>.product-price{font-size:12px}.product-tag{font-size:10px}.quick-add{font-size:12px}
+.bexy-story-intro{padding:40px 22px;grid-template-columns:1fr;gap:20px}.bexy-story-intro>p:last-child{font-size:25px}.about-values,.about-contact{padding:45px 22px}.about-values h2,.about-contact h2{font-size:31px}.wedding-package{padding:26px 20px}.wedding-detail-row h2,.wedding-gallery-heading h2,.wedding-package h2,.event-inquiry h2{font-size:29px}
+.bexy-discover{padding:40px 22px 45px;grid-template-columns:1fr;gap:30px}.bexy-discover h2{font-size:32px;max-width:340px}.bexy-discover-links h3{font-size:19px}.bexy-discover-links p{font-size:14px}.bexy-discover-links>a{gap:14px;padding:22px 0}.footer-main>div>a:not(.wordmark),.footer-main>div>span,.footer-main p{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){.primary,.outline,.bexy-discover-links>a,.reference-occasion-grid img{transition:none}}
+
+.bexy-catalogue-edits{display:flex;align-items:center;gap:12px;overflow-x:auto;padding:24px var(--bexy-space);scrollbar-width:thin;border-bottom:1px solid #eee}.bexy-catalogue-edits>button{flex-shrink:0;border:1px solid #ddd;background:white;padding:11px 17px;font-size:13px;line-height:1.5;transition:border-color .2s,color .2s}.bexy-catalogue-edits>button[aria-pressed=true]{background:#171717;color:white;border-color:#171717}.bexy-catalogue-edits>button:hover{border-color:#9b772c}.bexy-catalogue-edits>button:focus-visible{outline:2px solid #9b772c;outline-offset:2px}@media(max-width:760px){.bexy-catalogue-edits{padding-block:18px;gap:9px}.bexy-catalogue-edits>button{font-size:13px;padding:10px 14px}}

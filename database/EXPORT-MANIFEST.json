@@ -1,0 +1,27 @@
+{
+  "exportedAt": "2026-09-15T08:11:23.409Z",
+  "projectId": "appgprj_6a9f49c303488191a89f0a5c9afba893",
+  "sourceCommit": "3acde0c755198b1a05ac5c28b221f7abc2a31543",
+  "excludedTables": [
+    "demo_auth",
+    "ai_limit_settings"
+  ],
+  "rowCounts": {
+    "site_content": 0,
+    "commerce_requests": 0,
+    "commerce_expenses": 0,
+    "consultation_slots": 0,
+    "demo_users": 0,
+    "analytics_events": 94,
+    "analytics_visitors": 24,
+    "order_drafts": 1,
+    "shop_sessions": 2,
+    "ai_preview_attempts": 0
+  },
+  "notes": [
+    "Read-only paginated live export; not a transactionally consistent point-in-time snapshot.",
+    "demo_auth and ai_limit_settings tables are included empty. Reauthenticate; the HMAC key is regenerated when needed.",
+    "R2 uploaded media is not exported. Repository images are included under public/images.",
+    "site_content is empty in the live database; default catalogue and copy are in lib/demo-data.ts and other source data modules."
+  ]
+}

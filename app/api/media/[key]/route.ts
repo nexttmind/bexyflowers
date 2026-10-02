@@ -1,0 +1,2 @@
+import {env} from 'cloudflare:workers';
+export async function GET(req:Request){const key=new URL(req.url).pathname.split('/').pop()??'';if(!/^[a-f0-9-]{36}$/.test(key))return new Response('Not found',{status:404});try{const obj=await env.BUCKET.get(key);if(!obj)return new Response('Not found',{status:404});return new Response(obj.body,{headers:{'Content-Type':obj.httpMetadata?.contentType??'application/octet-stream','Cache-Control':'public,max-age=31536000,immutable','X-Content-Type-Options':'nosniff'}})}catch{return new Response('Image unavailable',{status:503})}}
