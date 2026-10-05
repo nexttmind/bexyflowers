@@ -1,8 +1,10 @@
 import {z} from 'zod';
 import {initialCms,upgradeCms} from '@/lib/demo-data';
+import {CMS_IMAGE_ERROR,isValidCmsImageSrc} from '@/lib/cms-image';
 import {identity,sameOrigin,readData,writeData,json} from '@/lib/server-demo';
-const image=z.string().max(1000).refine(v=>/^\/images\/[a-zA-Z0-9_.-]+$/.test(v)||/^\/api\/media\/[a-f0-9-]+$/.test(v)||/^https:\/\//.test(v),'Use an uploaded image or HTTPS image URL');
-const schema=z.object({entries:z.record(z.object({text:z.string().max(5000).optional(),src:image.optional(),alt:z.string().max(300).optional(),hidden:z.boolean().optional()})),products:z.array(z.object({id:z.string().min(1).max(100),name:z.string().min(1).max(200),category:z.string().min(1).max(100),image,description:z.string().max(2000),tag:z.string().max(100).optional(),price:z.number().int().min(0).max(100000000),cost:z.number().int().min(0).max(100000000),discount:z.number().min(0).max(100),stock:z.number().int().min(0).max(100000),active:z.boolean(),kind:z.enum(['flower','accessory']).optional(),occasions:z.array(z.string().max(100)).max(20).optional(),years:z.array(z.number().int().min(2000).max(2100)).max(30).optional()})).max(300)});
+const image=z.string().max(1000).refine(isValidCmsImageSrc,CMS_IMAGE_ERROR);
+const optionalImage=z.preprocess(v=>(typeof v==='string'&&!v.trim()?undefined:v),image.optional());
+const schema=z.object({entries:z.record(z.object({text:z.string().max(5000).optional(),src:optionalImage,alt:z.string().max(300).optional(),hidden:z.boolean().optional()})),products:z.array(z.object({id:z.string().min(1).max(100),name:z.string().min(1).max(200),category:z.string().min(1).max(100),image,description:z.string().max(2000),tag:z.string().max(100).optional(),price:z.number().int().min(0).max(100000000),cost:z.number().int().min(0).max(100000000),discount:z.number().min(0).max(100),stock:z.number().int().min(0).max(100000),active:z.boolean(),kind:z.enum(['flower','accessory']).optional(),occasions:z.array(z.string().max(100)).max(20).optional(),years:z.array(z.number().int().min(2000).max(2100)).max(30).optional()})).max(300)});
 // Coalesce simultaneous catalogue reads within each Worker. Orders still read fresh prices.
 let cached:ReturnType<typeof upgradeCms>|undefined,expires=0,pending:Promise<ReturnType<typeof upgradeCms>>|undefined;
 let revision=0;

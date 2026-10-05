@@ -44,6 +44,9 @@ export default defineConfig(async () => {
   const { cloudflare } = await import("@cloudflare/vite-plugin");
 
   return {
+    resolve: {
+      dedupe: ["react", "react-dom"],
+    },
     server: {
       host: "0.0.0.0",
       port: 8081,

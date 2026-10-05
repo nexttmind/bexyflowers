@@ -1,4 +1,5 @@
 import type {Metadata} from 'next';
+import {Playfair_Display} from 'next/font/google';
 import './globals.css';
 import './reference.css';
 import './atelier.css';
@@ -10,8 +11,12 @@ import './shopping-refinements.css';
 import './luxury-motion.css';
 import './mobile-menu.css';
 import {SiteMotion} from '@/components/bexy/site-motion';
+import {MobileViewportLock} from '@/components/bexy/mobile-viewport-lock';
 import {VisitorTracker} from '@/components/bexy/visitor-tracker';
 import {CmsProvider} from '@/components/bexy/cms';
 import {ShopProvider,Shell} from '@/components/bexy/shop';
+import './typography.css';
+import './about-reference.css';
+const playfair=Playfair_Display({subsets:['latin'],weight:['400','500','600'],display:'swap',variable:'--font-playfair'});
 export const metadata:Metadata={title:'Bexy Flowers | Made for your kind of love',description:'Thoughtfully designed flowers by Rebecca. Explore signature bouquets, celebrate your moments, or design something uniquely yours. Based in Lebanon.',icons:{icon:'/images/logo.webp'}};
-export default function Layout({children}:{children:React.ReactNode}){return <html lang="en"><body><CmsProvider><ShopProvider><VisitorTracker/><SiteMotion/><Shell>{children}</Shell></ShopProvider></CmsProvider></body></html>}
+export default function Layout({children}:{children:React.ReactNode}){return <html lang="en" className={playfair.variable}><body><CmsProvider><ShopProvider><VisitorTracker/><MobileViewportLock/><SiteMotion/><Shell>{children}</Shell></ShopProvider></CmsProvider></body></html>}

@@ -1,3 +1,13 @@
+@media(max-width:760px),(hover:none){html{scroll-behavior:auto}}
+/* Phone: static full-screen heroes + no scroll-reveal (desktop keeps section fade-ins). */
+@media(max-width:760px),(max-width:932px) and (pointer:coarse){
+.bexy-immersive-hero,.atelier-page .bexy-immersive-hero,.bexy-immersive-hero.bexy-feature-hero,.reference-campaign{overflow:hidden;height:calc(var(--bexy-stable-vh,1svh)*100);min-height:calc(var(--bexy-stable-vh,1svh)*100);max-height:calc(var(--bexy-stable-vh,1svh)*100)}
+.bexy-immersive-hero .bexy-hero-art{position:absolute;inset:0}
+.bexy-immersive-hero .bexy-hero-art,.bexy-immersive-hero .bexy-hero-art picture,.bexy-immersive-hero .bexy-hero-art img,.reference-campaign>img{transform:none!important;will-change:auto!important;animation:none!important;transition:none!important;backface-visibility:hidden}
+.bexy-immersive-hero .bexy-hero-art picture>img,.bexy-immersive-hero .bexy-hero-art>img{object-fit:cover;object-position:center}
+.bexy-immersive-hero .bexy-hero-copy,.bexy-hero-copy,.reference-section-heading,.bexy-discover,.about-contact,.story-step,.story-heading,.gift-comparison-heading,.occasion-editorial-heading,.bexy-home-rail .reference-section-heading{animation:none!important;transition:none!important;opacity:1!important;transform:none!important}
+.bexy-scroll-cue svg{animation:none!important}
+}
 .header>.wordmark,.header.header-scrolled>.wordmark{gap:6px;flex-direction:row;align-items:center;color:var(--gold)}
 .header>.wordmark>span{padding:0;color:inherit;line-height:1.1}
 .header .bexy-nav-logo{margin-right:-3px}
@@ -5,8 +15,6 @@
 .footer-main .footer-brand>span{padding:0;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:1.1;color:inherit}
 .bexy-footer-logo{width:55px;height:36px;object-fit:contain;margin-right:-4px;flex-shrink:0}
 .gift-comparison-section{padding-top:72px;background:#fff}
-/* Follow the current mobile viewport as browser and app chrome changes. */
-.bexy-immersive-hero,.atelier-page .bexy-immersive-hero{height:100vh;height:100dvh}
 .wedding-service-slider{padding-top:45px;padding-bottom:10px}
 .wedding-service-sections{padding-top:45px;padding-bottom:10px}
 .wedding-service-sections .wedding-detail-row>figure{position:relative;overflow:hidden;margin:0}
@@ -51,6 +59,18 @@
 @media(min-width:1600px){
 #latest-arrangements+.reference-products .reference-product-rail .product-image,#home-finishing-touches+.reference-products .reference-product-rail .product-image{max-height:500px}
 }
+/* Homepage product rails — centered chapter titles with floral quote marks */
+.bexy-home-rail{padding-top:78px}
+.bexy-home-rail .bexy-rail-heading{position:relative;text-align:center;padding:0 var(--bexy-space,5%) 44px;margin:0 auto;max-width:820px}
+.bexy-home-rail .bexy-rail-heading__core{display:flex;flex-direction:column;align-items:center}
+.bexy-rail-heading__title{display:flex;align-items:center;justify-content:center;gap:clamp(10px,2.2vw,24px);margin:0 0 18px;position:relative}
+.bexy-rail-heading__title h2{text-align:center;margin:0;font-size:clamp(32px,3.9vw,54px);line-height:1.08;letter-spacing:-.035em;white-space:nowrap}
+.bexy-floral-quote{color:#9b772c;flex-shrink:0;opacity:.5;margin-top:6px}
+.bexy-floral-quote--right{transform:scaleX(-1)}
+.bexy-rail-heading__link{display:inline-flex;align-items:center;gap:5px;font-size:13px;letter-spacing:.06em;color:#171717;border-bottom:1px solid #d8d0bc;padding-bottom:3px;transition:color .2s,border-color .2s}
+.bexy-rail-heading__link:hover{color:#9b772c;border-color:#9b772c}
+.bexy-home-rail .reference-product-rail{margin-top:8px}
+@media(max-width:760px){.gift-scene-valentine{transition:none}.gift-comparison{min-height:420px;height:min(720px,105vw)}.bexy-home-rail{padding-top:52px}.bexy-home-rail .bexy-rail-heading{padding-bottom:32px}.bexy-floral-quote{width:20px;height:26px}.bexy-rail-heading__title h2{font-size:clamp(15px,4.6vw,36px)}}
 .gift-comparison-heading,.occasion-editorial-heading{text-align:center;padding:0 24px 40px}
 .gift-comparison-heading .eyebrow,.occasion-editorial-heading .eyebrow{color:#947332;font-size:12px;letter-spacing:.18em;margin-bottom:18px}
 .gift-comparison-heading h2,.occasion-editorial-heading h2{font-size:clamp(32px,4vw,54px);font-weight:400;letter-spacing:-.045em;line-height:1.12;margin:0 0 16px}
