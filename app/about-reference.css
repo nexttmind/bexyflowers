@@ -201,11 +201,27 @@
 
 .about-page-hero .bexy-hero-copy :is(h1,h2){
   font-size:clamp(38px,5vw,68px);
-  max-width:12ch;
+  max-width:11ch;
   text-wrap:balance;
   line-height:1.08;
+  letter-spacing:-.035em;
 }
-.about-page-hero .bexy-hero-eyebrow{margin-bottom:18px}
+.about-page-hero .bexy-hero-eyebrow{
+  margin-bottom:18px;
+  letter-spacing:.16em;
+}
+.about-page-hero .bexy-hero-description{
+  max-width:min(420px,92%);
+  margin-top:clamp(18px,2.5vw,26px);
+  font-size:clamp(15px,1.45vw,17px);
+  line-height:1.78;
+  font-weight:400;
+  color:#fffffff2;
+  text-shadow:0 1px 12px rgb(0 0 0 / 35%);
+}
+.about-page-hero .bexy-hero-actions{
+  margin-top:clamp(22px,3vw,30px);
+}
 .about-page-hero .bexy-hero-foot{grid-template-columns:1fr auto}
 
 @media(max-width:900px){

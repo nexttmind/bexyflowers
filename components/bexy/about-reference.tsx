@@ -9,10 +9,10 @@ export function AboutReferenceContent(){
       <EditableText as="h2" editKey="about-ref-story-title">Our Story</EditableText>
       <div className="about-ref-story-copy">
         <p>
-          Founded in <span className="about-ref-em">2024</span>, our flower boutique has quickly become a <span className="about-ref-em">pioneer</span> in Lebanon&apos;s floral industry. We proudly established the country&apos;s first <span className="about-ref-em">glitter flower shop</span>, introducing a unique and creative concept that combines <span className="about-ref-em">beauty</span>, <span className="about-ref-em">artistry</span>, and <span className="about-ref-em">personalization</span>.
+          Bexy Flowers opened in <span className="about-ref-em">2024</span> as Lebanon&apos;s first <span className="about-ref-em">glitter flower boutique</span>—a place where Rebecca turns color, texture, and finishing detail into arrangements that feel unmistakably personal.
         </p>
         <p>
-          Whether for <span className="about-ref-em">weddings</span>, <span className="about-ref-em">events</span>, or <span className="about-ref-em">personal gifting</span>, we are committed to redefining the art of floral design in Lebanon, offering products that blend <span className="about-ref-em">tradition</span> with <span className="about-ref-em">modern creativity</span>.
+          From <span className="about-ref-em">weddings and events</span> to everyday gifting, the studio blends thoughtful craft with a modern, creative eye—so every bouquet carries the same care from the first stem to the final ribbon.
         </p>
       </div>
     </EditableSection>

@@ -7,10 +7,12 @@ export function AboutPage(){
     <PageHero
       id="pages-section-26"
       className="about-page-hero"
-      eyebrow="ABOUT BEXY"
+      eyebrow="MEET BEXY FLOWERS"
       eyebrowKey="pages-p-27"
-      title="Rebecca's flowers, made personal."
+      title={<>Personal flowers,<br/>from Rebecca&apos;s studio.</>}
       titleKey="pages-h1-28"
+      description="In Lebanon, Rebecca designs bouquets for everyday love, milestone celebrations, and weddings—each one shaped around your colors, your story, and the feeling you want to leave behind."
+      descriptionKey="pages-about-hero-description"
       image="/images/about-hero.png"
       imageKey="pages-image-31"
       alt="Florist with bouquets by stone windows at Bexy Flowers"
